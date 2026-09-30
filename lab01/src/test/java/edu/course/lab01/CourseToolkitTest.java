@@ -20,4 +20,8 @@ class CourseToolkitTest {
 
         assertFalse(result);
     }
+    @Test
+    void isEvenReturnsTrueForZero() {
+    assertTrue(CourseToolkit.isEven(0) );
+}
 }
