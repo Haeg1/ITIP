@@ -2,6 +2,7 @@ package edu.course.lab01;
 
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -82,5 +83,35 @@ class CourseToolkitTest {
     void averageThrowsForEmptyArray() {
         assertThrows(IllegalArgumentException.class, () -> CourseToolkit.average(new int[]{}));
 }
+    @Test
+    void minReturnsSmallestElement() {
+        assertEquals(-3, CourseToolkit.min(new int[]{4, -3, 7, 0}));
+}
 
+    @Test
+    void maxReturnsLargestElement() {
+        assertEquals(7, CourseToolkit.max(new int[]{4, -3, 7, 0}));
+}
+
+    @Test
+    void minWorksForSingleElement() {
+        assertEquals(5, CourseToolkit.min(new int[]{5}));
+}
+
+    @Test
+    void maxWorksForSingleElement() {
+        assertEquals(5, CourseToolkit.max(new int[]{5}));
+}
+
+    @Test
+    void maxThrowsForEmptyArray() {
+        assertThrows(IllegalArgumentException.class, () -> CourseToolkit.max(new int[]{}));
+}
+
+    @Test
+    void minDoesNotChangeInputArray() {
+        int[] values = {4, -3, 7, 0};
+        CourseToolkit.min(values);
+        assertArrayEquals(new int[]{4, -3, 7, 0}, values);
+}
 }

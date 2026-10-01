@@ -54,5 +54,34 @@ public final class CourseToolkit {
 
         return Arrays.stream(values).sum() / values.length;
     }
+    public static int min(int[] values) {
+    if (values.length == 0) {
+        throw new IllegalArgumentException("values is empty");
+    }
+
+    int result = values[0];
+
+    for (int i = 0; i < values.length; i++) {
+        if (values[i] < result) {
+            result = values[i];
+        }
+    }
+    return result;
+}
+
+public static int max(int[] values) {
+    if (values == null || values.length == 0) {
+        throw new IllegalArgumentException("values is empty\"");
+    }
+
+    int result = values[0];
+
+    for (int i = 0; i < values.length; i++) {
+        if (values[i] > result) {
+            result = values[i];
+        }
+    }
+    return result;
+}
 }
 
