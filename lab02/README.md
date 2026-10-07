@@ -1,15 +1,24 @@
 # Лабораторная работа 2: Классы и инкапсуляция
 
-Условие: [`assignments/lab02-domain-model.md`](../assignments/lab02-domain-model.md).
+## Инварианты BankAccount
 
-Из корня репозитория запустите:
+- `balance >= 0` всегда.
+- Конструктор запрещает отрицательный начальный баланс.
+- `deposit(amount)` принимает только `amount > 0`.
+- `withdraw(amount)` принимает только `amount > 0` и `amount <= balance`.
+- Сеттера баланса нет.
 
-```bash
-./mvnw -pl lab02 test
-```
+## Инварианты DataSample
 
-Windows PowerShell: `.\\mvnw.cmd -pl lab02 test`.
+- `id != null`, не пустой.
+- `label != null`, не пустой.
+- `status != null`.
+- `features != null`, `features.length > 0`.
+- Массив копируется в конструкторе и в `getFeatures()`.
+- `status` меняется только через `changeStatus`, `null` запрещён.
+- `isReady() == true` только при `status == READY`.
 
-Основной код размещайте в `src/main/java/edu/course/lab02/`, тесты — в `src/test/java/edu/course/lab02/`. В начале каждого Java-файла укажите `package edu.course.lab02;`.
+## Дополнительно
 
-Модуль независим от остальных лабораторных. Если нужны модели из предыдущей работы, перенесите и при необходимости адаптируйте только нужные классы в этот модуль. Начальная успешная сборка не является выполнением задания: создайте реализацию и собственные тесты по условию.
+- `SampleId` — неизменяемый record, `value` не может быть `null` или пустым.
+- `normalized(min, max)` возвращает новый `DataSample`, исходный не меняется.

@@ -1,5 +1,8 @@
 package edu.course.lab02;
 
-public class SampleStatus {
-
+public enum SampleStatus {
+    RAW,
+    PROCESSING,
+    READY,
+    REJECTED
 }
