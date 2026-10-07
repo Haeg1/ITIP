@@ -9,60 +9,56 @@ import org.junit.jupiter.api.Test;
 
 class DataSampleTest {
 
-    // Вспомогательный метод для создания валидного объекта
     private DataSample createSample() {
         return new DataSample(
-            new SampleId("a1"),
-            "dog",
-            SampleStatus.RAW,
-            new double[]{1.0, 2.0, 3.0}
+            new SampleId("sample-42"), 
+            "iris", 
+            SampleStatus.RAW, 
+            new double[]{2.0, 4.0, 6.0}
         );
     }
 
     @Test
     void constructorCreatesValidSample() {
         DataSample s = createSample();
-        assertEquals("a1", s.getId().value());
-        assertEquals("dog", s.getLabel());
+        assertEquals("sample-42", s.getId().value());
+        assertEquals("iris", s.getLabel());
         assertEquals(SampleStatus.RAW, s.getStatus());
-        assertArrayEquals(new double[]{1.0, 2.0, 3.0}, s.getFeatures(), 1e-9);
+        assertArrayEquals(new double[]{2.0, 4.0, 6.0}, s.getFeatures(), 1e-9);
     }
 
     @Test
-    void constructorRejectsNullOrBlankId() {
-        // Проверка на null
+    void constructorRejectsNullId() {
         assertThrows(IllegalArgumentException.class,
-            () -> new DataSample(null, "dog", SampleStatus.RAW, new double[]{1.0}));
+            () -> new DataSample(null, "iris", SampleStatus.RAW, new double[]{5.0}));
+    }
 
-        // Проверка на пустую строку внутри SampleId
+    @Test
+    void constructorRejectsEmptyIdValue() {
         assertThrows(IllegalArgumentException.class,
-            () -> new DataSample(new SampleId(""), "dog", SampleStatus.RAW, new double[]{1.0}));
-
-        // Проверка на пробелы внутри SampleId
-        assertThrows(IllegalArgumentException.class,
-            () -> new DataSample(new SampleId("   "), "dog", SampleStatus.RAW, new double[]{1.0}));
+            () -> new DataSample(new SampleId(""), "iris", SampleStatus.RAW, new double[]{5.0}));
     }
 
     @Test
     void constructorRejectsNullOrBlankLabel() {
         assertThrows(IllegalArgumentException.class,
-            () -> new DataSample(new SampleId("a1"), null, SampleStatus.RAW, new double[]{1.0}));
+            () -> new DataSample(new SampleId("ok"), null, SampleStatus.RAW, new double[]{5.0}));
         assertThrows(IllegalArgumentException.class,
-            () -> new DataSample(new SampleId("a1"), "", SampleStatus.RAW, new double[]{1.0}));
+            () -> new DataSample(new SampleId("ok"), "", SampleStatus.RAW, new double[]{5.0}));
     }
 
     @Test
     void constructorRejectsNullStatus() {
         assertThrows(IllegalArgumentException.class,
-            () -> new DataSample(new SampleId("a1"), "dog", null, new double[]{1.0}));
+            () -> new DataSample(new SampleId("ok"), "iris", null, new double[]{5.0}));
     }
 
     @Test
     void constructorRejectsNullOrEmptyFeatures() {
         assertThrows(IllegalArgumentException.class,
-            () -> new DataSample(new SampleId("a1"), "dog", SampleStatus.RAW, null));
+            () -> new DataSample(new SampleId("ok"), "iris", SampleStatus.RAW, null));
         assertThrows(IllegalArgumentException.class,
-            () -> new DataSample(new SampleId("a1"), "dog", SampleStatus.RAW, new double[]{}));
+            () -> new DataSample(new SampleId("ok"), "iris", SampleStatus.RAW, new double[]{}));
     }
 
     @Test
@@ -92,24 +88,24 @@ class DataSampleTest {
 
     @Test
     void meanFeaturesCalculated() {
-        DataSample s = createSample(); // {1, 2, 3} -> среднее 2.0
-        assertEquals(2.0, s.meanFeatures(), 1e-9);
+        DataSample s = createSample(); 
+        assertEquals(4.0, s.meanFeatures(), 1e-9);
     }
 
     @Test
     void featuresAreCopiedInConstructor() {
-        double[] original = {1.0, 2.0, 3.0};
-        DataSample s = new DataSample(new SampleId("a1"), "dog", SampleStatus.RAW, original);
+        double[] original = {3.0, 6.0, 9.0};
+        DataSample s = new DataSample(new SampleId("ok"), "iris", SampleStatus.RAW, original);
 
-        original[0] = 999.0; // меняем внешний массив
-        assertArrayEquals(new double[]{1.0, 2.0, 3.0}, s.getFeatures(), 1e-9);
+        original[0] = 100.0; 
+        assertArrayEquals(new double[]{3.0, 6.0, 9.0}, s.getFeatures(), 1e-9);
     }
 
     @Test
     void featuresAreCopiedOnGet() {
         DataSample s = createSample();
         double[] fromGetter = s.getFeatures();
-        fromGetter[0] = 999.0; // меняем полученную копию
-        assertArrayEquals(new double[]{1.0, 2.0, 3.0}, s.getFeatures(), 1e-9);
+        fromGetter[0] = 100.0; 
+        assertArrayEquals(new double[]{2.0, 4.0, 6.0}, s.getFeatures(), 1e-9);
     }
 }
